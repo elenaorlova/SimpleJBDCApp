@@ -1,4 +1,8 @@
 import java.sql.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class JdbcDemo {
     private static final String DATABASE_URL = "jdbc:mysql://localhost/school?serverTimezone=UTC";
@@ -8,13 +12,15 @@ public class JdbcDemo {
 
     private static void getDataFromTeachersTable(Statement statement, String query) throws SQLException {
         ResultSet resultSet = statement.executeQuery(query);
+        Map<String, String> teacherInfo = new HashMap<>();
+
         System.out.println("\nRetrieving data from database...");
         while (resultSet.next()) {
-            String name = resultSet.getString("TeacherName");
-            String fName = resultSet.getString("TeacherFName");
-            String mName = resultSet.getString("TeacherMName");
+            teacherInfo.put("name", resultSet.getString("TeacherName"));
+            teacherInfo.put("fName", resultSet.getString("TeacherFName"));
+            teacherInfo.put("mName", resultSet.getString("TeacherMName"));
 
-            System.out.println("Teacher: " + fName + " " + name + " " + mName);
+            System.out.println("Teacher: " + teacherInfo.get("fName") + " " + teacherInfo.get("name") + " " + teacherInfo.get("mName"));
         }
         resultSet.close();
         System.out.println();
