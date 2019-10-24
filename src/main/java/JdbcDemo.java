@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JdbcDemo {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost/school?serverTimezone=UTC";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost/school?serverTimezone=UTC&useSSL=false";
 
     private static final String USER = "root";
     private static final String PASSWORD = "1122";
@@ -14,7 +14,7 @@ public class JdbcDemo {
         ResultSet resultSet = statement.executeQuery(query);
         Map<String, String> teacherInfo = new HashMap<>();
 
-        System.out.println("\nRetrieving data from database...");
+        print("\nRetrieving data from database...");
         while (resultSet.next()) {
             teacherInfo.put("name", resultSet.getString("TeacherName"));
             teacherInfo.put("fName", resultSet.getString("TeacherFName"));
@@ -29,22 +29,36 @@ public class JdbcDemo {
         System.out.println();
     }
 
-    private static void addRecordToTeachersTable(@NotNull Statement statement, String query) throws SQLException {
+    private static void addTeacher(@NotNull Statement statement, String query) throws SQLException {
         System.out.println("Adding record...");
-        statement.executeUpdate(query);
+        int rowsAffected = statement.executeUpdate(query);
+        print("Updated items: " + rowsAffected);
     }
 
     private static void renameTeacher(@NotNull Statement statement, String oldName, String newName) throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM teachers");
         while (resultSet.next()) {
             if (oldName.equals(resultSet.getString("TeacherName"))) {
-                System.out.println("Renaming teacher...");
+                print("Renaming teacher...");
                 resultSet.updateString("TeacherName", newName);
                 resultSet.updateRow();
                 break ;
             }
         }
         resultSet.close();
+    }
+
+    private static void deleteTeacher(@NotNull Statement statement, String name, String fName) throws SQLException {
+        print("Deleting " + name + " " + fName);
+        int rowsAffected = statement.executeUpdate(
+                "DELETE FROM teachers " +
+                "WHERE TeacherName=\'"
+                + name + "\' AND TeacherFName=\'" + fName + "\'");
+        print("Successfully deleted " + rowsAffected);
+    }
+
+    private static void print(String str) {
+        System.out.println(str);
     }
 
     public static void main(String[] args) {
@@ -63,9 +77,10 @@ public class JdbcDemo {
                         " `TeacherBorn`, `TeacherSex`, `TitleID`) " +
                         "VALUES ('Vladislav', 'Smirnov', 'Ivanovich', '1989-10-14', 'M', '1');";
 
-                addRecordToTeachersTable(statement, queryInsert);
+                //addTeacher(statement, queryInsert);
                 getDataFromTeachersTable(statement, querySelect);
-                renameTeacher(statement, "Vladislav", "Oleg");
+                //renameTeacher(statement, "Vladislav", "Oleg");
+                deleteTeacher(statement, "Valislav", "Smirnov");
                 getDataFromTeachersTable(statement, querySelect);
             } catch (SQLException e) {
                 e.printStackTrace();
