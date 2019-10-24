@@ -8,7 +8,7 @@ public interface Dao<T> {
     T get(int id);
     T getFromResultSet(ResultSet result_set) throws SQLException;
     List<T> getAll();
-    void insert(T t);
+    boolean insert(T t);
     void update(T t, String[] params);
     void delete(T t);
 }

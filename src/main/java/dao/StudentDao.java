@@ -1,6 +1,7 @@
 package dao;
 
 import db.school.Student;
+import oracle.ucp.proxy.annotation.Pre;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -65,8 +66,20 @@ public class StudentDao implements Dao<Student> {
     }
 
     @Override
-    public void insert(Student student) {
-        students.add(student);
+    public boolean insert(Student student) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             PreparedStatement prepared_statement = connection.prepareStatement("INSERT INTO student VALUES (NULL, ?, ?, ?, ?, ?)");) {
+            prepared_statement.setString(1, student.getName());
+            prepared_statement.setString(2, student.getMName());
+            prepared_statement.setString(3, student.getFName());
+            int i = prepared_statement.executeUpdate();
+
+            if (i == 1)
+                return true;
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
