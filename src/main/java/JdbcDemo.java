@@ -25,6 +25,19 @@ public class JdbcDemo {
         statement.executeUpdate(query);
     }
 
+    private static void renameTeacher(Statement statement, String oldName, String newName) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM teachers");
+        while (resultSet.next()) {
+            if (oldName.equals(resultSet.getString("TeacherName"))) {
+                System.out.println("Renaming teacher...");
+                resultSet.updateString("TeacherName", newName);
+                resultSet.updateRow();
+                break ;
+            }
+        }
+        resultSet.close();
+    }
+
     public static void main(String[] args) {
         System.out.println("Creating database connection...");
 
@@ -36,10 +49,11 @@ public class JdbcDemo {
 
             try {
                 String querySelect = "SELECT * FROM teachers";
+                String queryInsert = "INSERT INTO `school`.`teachers` (`TeacherName`, `TeacherFName`, `TeacherMName`, `TeacherBorn`, `TeacherSex`, `TitleID`) VALUES ('Vladislav', 'Smirnov', 'Ivanovich', '1989-10-14', 'M', '1');";
 
-                getDataFromTeachersTable(statement, querySelect);
-                String queryInsert = "INSERT INTO `school`.`teachers` (`TeacherName`, `TeacherFName`, `TeacherMName`, `TeacherBorn`, `TeacherSex`, `TitleID`) VALUES ('Valislav', 'Smirnov', 'Ivanovich', '1989-10-14', 'M', '1');";
                 addRecordToTeachersTable(statement, queryInsert);
+                getDataFromTeachersTable(statement, querySelect);
+                renameTeacher(statement, "Vladislav", "Oleg");
                 getDataFromTeachersTable(statement, querySelect);
             } catch (SQLException e) {
                 e.printStackTrace();
