@@ -16,6 +16,7 @@ public class JdbcDemo {
 
             System.out.println("Teacher: " + fName + " " + name + " " + mName);
         }
+        resultSet.close();
         System.out.println();
     }
 
