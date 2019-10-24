@@ -10,7 +10,8 @@ public class JdbcDemo {
     private static final String USER = "root";
     private static final String PASSWORD = "1122";
 
-    private static void getDataFromTeachersTable(@NotNull Statement statement, String query) throws SQLException {
+    public static void getDataFromTeachersTable(@NotNull Statement statement, String query)
+            throws SQLException {
         ResultSet resultSet = statement.executeQuery(query);
         Map<String, String> teacherInfo = new HashMap<>();
 
@@ -29,13 +30,15 @@ public class JdbcDemo {
         System.out.println();
     }
 
-    private static void addTeacher(@NotNull Statement statement, String query) throws SQLException {
+    public static void addTeacher(@NotNull Statement statement, String query)
+            throws SQLException {
         System.out.println("Adding record...");
         int rowsAffected = statement.executeUpdate(query);
         print("Updated items: " + rowsAffected);
     }
 
-    private static void renameTeacher(@NotNull Statement statement, String oldName, String newName) throws SQLException {
+    public static void renameTeacher(@NotNull Statement statement, String oldName, String newName)
+            throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM teachers");
         while (resultSet.next()) {
             if (oldName.equals(resultSet.getString("TeacherName"))) {
@@ -48,13 +51,33 @@ public class JdbcDemo {
         resultSet.close();
     }
 
-    private static void deleteTeacher(@NotNull Statement statement, String name, String fName) throws SQLException {
+    public static void deleteTeacher(@NotNull Statement statement, String name, String fName)
+            throws SQLException {
         print("Deleting " + name + " " + fName);
         int rowsAffected = statement.executeUpdate(
                 "DELETE FROM teachers " +
                 "WHERE TeacherName=\'"
                 + name + "\' AND TeacherFName=\'" + fName + "\'");
         print("Successfully deleted " + rowsAffected);
+    }
+
+    public static Map<String, PreparedStatement> createPreparedStatementList(Connection connection)
+            throws SQLException {
+        Map<String, PreparedStatement> statements = new HashMap<>();
+        statements.put("deleteStatement", connection.prepareStatement(
+                "DELETE FROM teachers "
+                + "WHERE TeacherName=?"
+                + " AND TeacherFName=?"));
+        statements.put("selectStatement", connection.prepareStatement(
+                "SELECT * FROM ?"
+        ));
+        statements.put("insertStatement", connection.prepareStatement(
+                "INSERT INTO `school`.`teachers` " +
+                   "(`TeacherName`, `TeacherFName`, `TeacherMName`," +
+                   " `TeacherBorn`, `TeacherSex`, `TitleID`) " +
+                   "VALUES (?, ?, ?, ?, ?, ?);"
+        ));
+        return statements;
     }
 
     private static void print(String str) {
