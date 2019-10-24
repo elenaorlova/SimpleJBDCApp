@@ -1,8 +1,8 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class JdbcDemo {
     private static final String DATABASE_URL = "jdbc:mysql://localhost/school?serverTimezone=UTC";
@@ -10,7 +10,7 @@ public class JdbcDemo {
     private static final String USER = "root";
     private static final String PASSWORD = "1122";
 
-    private static void getDataFromTeachersTable(Statement statement, String query) throws SQLException {
+    private static void getDataFromTeachersTable(@NotNull Statement statement, String query) throws SQLException {
         ResultSet resultSet = statement.executeQuery(query);
         Map<String, String> teacherInfo = new HashMap<>();
 
@@ -20,18 +20,21 @@ public class JdbcDemo {
             teacherInfo.put("fName", resultSet.getString("TeacherFName"));
             teacherInfo.put("mName", resultSet.getString("TeacherMName"));
 
-            System.out.println("Teacher: " + teacherInfo.get("fName") + " " + teacherInfo.get("name") + " " + teacherInfo.get("mName"));
+            System.out.println("Teacher: "
+                    + teacherInfo.get("fName")
+                    + " " + teacherInfo.get("name")
+                    + " " + teacherInfo.get("mName"));
         }
         resultSet.close();
         System.out.println();
     }
 
-    private static void addRecordToTeachersTable(Statement statement, String query) throws SQLException {
+    private static void addRecordToTeachersTable(@NotNull Statement statement, String query) throws SQLException {
         System.out.println("Adding record...");
         statement.executeUpdate(query);
     }
 
-    private static void renameTeacher(Statement statement, String oldName, String newName) throws SQLException {
+    private static void renameTeacher(@NotNull Statement statement, String oldName, String newName) throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM teachers");
         while (resultSet.next()) {
             if (oldName.equals(resultSet.getString("TeacherName"))) {
@@ -55,7 +58,10 @@ public class JdbcDemo {
 
             try {
                 String querySelect = "SELECT * FROM teachers";
-                String queryInsert = "INSERT INTO `school`.`teachers` (`TeacherName`, `TeacherFName`, `TeacherMName`, `TeacherBorn`, `TeacherSex`, `TitleID`) VALUES ('Vladislav', 'Smirnov', 'Ivanovich', '1989-10-14', 'M', '1');";
+                String queryInsert = "INSERT INTO `school`.`teachers` " +
+                        "(`TeacherName`, `TeacherFName`, `TeacherMName`," +
+                        " `TeacherBorn`, `TeacherSex`, `TitleID`) " +
+                        "VALUES ('Vladislav', 'Smirnov', 'Ivanovich', '1989-10-14', 'M', '1');";
 
                 addRecordToTeachersTable(statement, queryInsert);
                 getDataFromTeachersTable(statement, querySelect);
@@ -67,7 +73,6 @@ public class JdbcDemo {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Closing all connections...");
     }
 }
 
