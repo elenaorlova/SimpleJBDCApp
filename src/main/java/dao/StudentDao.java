@@ -26,20 +26,25 @@ public class StudentDao implements Dao<Student> {
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM student WHERE StudentId=" + id);) {
-            if (resultSet.next()) {
-                Student student = new Student();
-
-                student.setMName(resultSet.getString("StudentMName"));
-                student.setFName(resultSet.getString("StudentFName"));
-                student.setLName(resultSet.getString("StudentLName"));
-                student.setBirthDate(resultSet.getDate("StudentBorn"));
-                return student;
+             ResultSet result_set = statement.executeQuery("SELECT * FROM student WHERE StudentId=" + id);) {
+            if (result_set.next()) {
+                return getFromResultSet(result_set);
             }
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Student getFromResultSet(ResultSet result_set) throws SQLException {
+        Student student = new Student();
+
+        student.setMName(result_set.getString("StudentMName"));
+        student.setFName(result_set.getString("StudentFName"));
+        student.setLName(result_set.getString("StudentLName"));
+        student.setBirthDate(result_set.getDate("StudentBorn"));
+        return student;
     }
 
     @Override
