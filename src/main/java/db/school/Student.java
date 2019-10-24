@@ -6,6 +6,10 @@ import java.util.Map;
 public class Student extends Person{
     private int formId;
 
+    public Student() {
+
+    }
+
     public Student(String name, String fName) {
         this.name = name;
         this.fName = fName;
@@ -18,5 +22,12 @@ public class Student extends Person{
 
     public int getFormId() {
         return this.formId;
+    }
+
+    @Override
+    public String toString() {
+        return "Student: { name: " + this.name + " fname: " + this.fName + " mname: " + this.mName
+                + " }";
+
     }
 }

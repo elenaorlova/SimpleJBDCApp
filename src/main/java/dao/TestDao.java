@@ -7,7 +7,7 @@ public class TestDao {
     public static void main(String[] args) {
         studentDao = new StudentDao();
 
-        Student student = new Student("Masha", "3");
-        //studentDao.getAll().forEach(students -> System.out.println(student.getName() + " " + student.getFName()));
+        Student student = (Student) studentDao.get(5);
+        System.out.println(student.toString());
     }
 }

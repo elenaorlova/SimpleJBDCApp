@@ -9,7 +9,7 @@ abstract class Person {
     String mName;
     Date birthDate;
 
-    public void setName(String name) {
+    public void setMName(String name) {
         this.name = name;
     }
 
@@ -17,7 +17,7 @@ abstract class Person {
         this.fName = fName;
     }
 
-    public void setMName(String mName) {
+    public void setLName(String mName) {
         this.mName = mName;
     }
 
