@@ -9,6 +9,10 @@ abstract class Person {
     String mName;
     Date birthDate;
 
+    public int getId() {
+        return this.id;
+    }
+
     public void setMName(String name) {
         this.name = name;
     }

@@ -9,6 +9,6 @@ public interface Dao<T> {
     T getFromResultSet(ResultSet result_set) throws SQLException;
     List<T> getAll();
     boolean insert(T t);
-    void update(T t, String[] params);
-    void delete(T t);
+    boolean update(T t, String[] params);
+    boolean delete(int id);
 }

@@ -1,14 +1,9 @@
 package db.school;
 
-import java.sql.Date;
-import java.util.Map;
-
-public class Student extends Person{
+public class Student extends Person {
     private int formId;
 
-    public Student() {
-
-    }
+    public Student() { }
 
     public Student(String name, String fName) {
         this.name = name;

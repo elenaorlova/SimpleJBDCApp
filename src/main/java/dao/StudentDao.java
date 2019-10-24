@@ -1,12 +1,10 @@
 package dao;
 
 import db.school.Student;
-import oracle.ucp.proxy.annotation.Pre;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 // todo: understand why getConnection() doesn't work
 
@@ -72,8 +70,8 @@ public class StudentDao implements Dao<Student> {
             prepared_statement.setString(1, student.getName());
             prepared_statement.setString(2, student.getMName());
             prepared_statement.setString(3, student.getFName());
-            int i = prepared_statement.executeUpdate();
 
+            int i = prepared_statement.executeUpdate();
             if (i == 1)
                 return true;
         } catch (SQLException | NullPointerException e) {
@@ -83,14 +81,33 @@ public class StudentDao implements Dao<Student> {
     }
 
     @Override
-    public void update(Student student, String[] params) {
-        student.setMName(Objects.requireNonNull(params[0], "Name cannot be null"));
-        student.setFName(Objects.requireNonNull(params[1], "First Name cannot be null"));
-        students.add(student);
+    public boolean update(Student student, String[] params) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             PreparedStatement prepared_statement = connection.prepareStatement("UPDATE student SET StudentMName=?, " +
+                     "StudentFName=?, StudentLName=?, StudentBorn=?")) {
+            prepared_statement.setString(1, student.getName());
+            prepared_statement.setString(2, student.getMName());
+            prepared_statement.setString(3, student.getFName());
+
+            int i = prepared_statement.executeUpdate();
+            if (i == 1)
+                return true;
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
-    public void delete(Student student) {
-        students.remove(student);
+    public boolean delete(int id) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+                int i = statement.executeUpdate("DELETE FROM student WHERE StudentId=" + id);
+                if (i == 1)
+                    return true;
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
