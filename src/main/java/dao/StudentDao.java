@@ -49,7 +49,19 @@ public class StudentDao implements Dao<Student> {
 
     @Override
     public List<Student> getAll() {
-        return students;
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet result_set = statement.executeQuery("SELECT * FROM student")) {
+            while (result_set.next()) {
+                Student student = getFromResultSet(result_set);
+                students.add(student);
+            }
+
+            return students;
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
