@@ -3,11 +3,11 @@ package db.school;
 import java.sql.Date;
 
 abstract class Person {
-    private int id;
-    private String name;
-    private String fName;
-    private String mName;
-    private Date birthDate;
+    int id;
+    String name;
+    String fName;
+    String mName;
+    Date birthDate;
 
     public void setName(String name) {
         this.name = name;
