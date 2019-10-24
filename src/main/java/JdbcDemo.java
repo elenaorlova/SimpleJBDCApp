@@ -1,14 +1,16 @@
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class JdbcDemo {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost/school?serverTimezone=UTC&useSSL=false";
-
-    private static final String USER = "root";
-    private static final String PASSWORD = "1122";
+    private static String dbUrl;
+    private static String dbUser;
+    private static String dbPassword;
 
     public static void getDataFromTeachersTable(@NotNull Statement statement, String query)
             throws SQLException {
@@ -71,6 +73,11 @@ public class JdbcDemo {
         statements.put("selectStatement", connection.prepareStatement(
                 "SELECT * FROM ?"
         ));
+
+        //statements.get("deleteStatement").setString(1, "Anastasia");
+        // statements.get("deleteStatement").setString(2, "Osipova");
+        //ResultSet res = statements.get("deleteStatement").executeQuery();
+
         statements.put("insertStatement", connection.prepareStatement(
                 "INSERT INTO `school`.`teachers` " +
                    "(`TeacherName`, `TeacherFName`, `TeacherMName`," +
@@ -85,9 +92,23 @@ public class JdbcDemo {
     }
 
     public static void main(String[] args) {
-        System.out.println("Creating database connection...");
+        Properties properties = new Properties();
+        try {
+            String PROPERTIES_PATH = "C:\\Users\\Elena\\Documents" +
+                    "\\GitHub\\SimpleJBDCApp" +
+                    "\\src\\main\\resources\\db.properties";
+            properties.load(new FileInputStream(PROPERTIES_PATH));
+            dbUser = properties.getProperty("user");
+            dbPassword = properties.getProperty("password");
+            dbUrl = properties.getProperty("dburl");
+            print("User " + dbUser + " is connecting to " + dbUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+        print("Creating database connection...");
+
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
              Statement statement = connection.createStatement(
                      ResultSet.TYPE_FORWARD_ONLY,
                      ResultSet.CONCUR_UPDATABLE
