@@ -10,6 +10,8 @@ public class Student extends Person {
         this.fName = fName;
         this.mName = mName;
 
+        System.out.println(lName + fName + mName);
+
         if (verbose)
             System.out.println(this.toString() + " constructed");
     }
@@ -24,8 +26,7 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return "Student: { Last name: " + this.lName + " First name: " + this.fName + " Middle name: " + this.mName
-                + " }";
-
+        return "Student:\n{ Last name: " + this.lName + "\nFirst name: " + this.fName + "\nMiddle name: " + this.mName
+                + "\nID: " + this.id + " }";
     }
 }

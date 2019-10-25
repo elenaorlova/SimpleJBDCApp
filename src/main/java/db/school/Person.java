@@ -16,12 +16,16 @@ abstract class Person {
         return this.id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getLName() {
         return this.lName;
     }
 
-    public void setLName(String mName) {
-        this.lName = mName;
+    public void setLName(String lName) {
+        this.lName = lName;
     }
 
     public String getFName() {
@@ -36,8 +40,8 @@ abstract class Person {
         return this.mName;
     }
 
-    public void setMName(String name) {
-        this.mName = name;
+    public void setMName(String mName) {
+        this.mName = mName;
     }
 
     public Date getBirthDate() {
@@ -46,5 +50,11 @@ abstract class Person {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    @Override
+    public String toString() {
+        return "{ Last name: " + this.lName + "\nFirst name: " + this.fName + "\nMiddle name: " + this.mName
+                + "\n ID: " + this.id + " }";
     }
 }
