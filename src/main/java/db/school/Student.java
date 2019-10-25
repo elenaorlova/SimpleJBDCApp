@@ -1,15 +1,14 @@
 package db.school;
 
-// todo: construct in abstract class ??
-
 public class Student extends Person {
     private int formId;
 
     public Student() { }
 
-    public Student(String lName, String fName) {
+    public Student(String lName, String fName, String mName) {
         this.lName = lName;
         this.fName = fName;
+        this.mName = mName;
 
         if (verbose)
             System.out.println(this.toString() + " constructed");

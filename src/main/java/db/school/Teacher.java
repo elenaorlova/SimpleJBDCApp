@@ -3,6 +3,8 @@ package db.school;
 public class Teacher extends Person {
     private int titleId;
 
+    public Teacher() {}
+
     public Teacher(String lName, String fName, String mName) {
         this.lName = lName;
         this.fName = fName;
