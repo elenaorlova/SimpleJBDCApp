@@ -7,27 +7,27 @@ public class Form {
     private Date creationDate;
     private String letter;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return this.id;
     }
 
-    public void setLetter(String letter) {
-        this.letter = letter;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLetter() {
         return this.letter;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setLetter(String letter) {
+        this.letter = letter;
     }
 
     public Date getCreationDate() {
         return this.creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

@@ -1,27 +1,31 @@
 package db.school;
 
+// todo: construct in abstract class ??
+
 public class Student extends Person {
     private int formId;
 
     public Student() { }
 
-    public Student(String name, String fName) {
-        this.name = name;
+    public Student(String lName, String fName) {
+        this.lName = lName;
         this.fName = fName;
-        System.out.println("Student: " + this.name + " " + this.fName + " constructed");
-    }
 
-    public void setFormId(int formId) {
-        this.formId = formId;
+        if (verbose)
+            System.out.println(this.toString() + " constructed");
     }
 
     public int getFormId() {
         return this.formId;
     }
 
+    public void setFormId(int formId) {
+        this.formId = formId;
+    }
+
     @Override
     public String toString() {
-        return "Student: { name: " + this.name + " fname: " + this.fName + " mname: " + this.mName
+        return "Student: { Last name: " + this.lName + " First name: " + this.fName + " Middle name: " + this.mName
                 + " }";
 
     }

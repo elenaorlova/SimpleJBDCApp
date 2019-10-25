@@ -3,17 +3,27 @@ package db.school;
 public class Teacher extends Person {
     private int titleId;
 
-    public Teacher(String name, String fName, String mName) {
-        this.name = name;
+    public Teacher(String lName, String fName, String mName) {
+        this.lName = lName;
         this.fName = fName;
         this.mName = mName;
+
+        if (verbose)
+            System.out.println(this.toString() + " constructed");
+    }
+
+    public int getTitleId() {
+        return this.titleId;
     }
 
     public void setTitleId(int titleId) {
         this.titleId = titleId;
     }
 
-    public int getTitleId() {
-        return this.titleId;
+    @Override
+    public String toString() {
+        return "Teacher: { Last name: " + this.lName + " First name: " + this.fName + " Middle name: " + this.mName
+                + " }";
+
     }
 }

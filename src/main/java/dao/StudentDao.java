@@ -25,7 +25,7 @@ public class StudentDao implements Dao<Student> {
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement statement = connection.createStatement();
-             ResultSet result_set = statement.executeQuery("SELECT * FROM student WHERE StudentId=" + id);) {
+             ResultSet result_set = statement.executeQuery("SELECT * FROM student WHERE StudentId=" + id)) {
             if (result_set.next()) {
                 return getFromResultSet(result_set);
             }
@@ -39,9 +39,9 @@ public class StudentDao implements Dao<Student> {
     public Student getFromResultSet(ResultSet result_set) throws SQLException {
         Student student = new Student();
 
-        student.setMName(result_set.getString("StudentMName"));
-        student.setFName(result_set.getString("StudentFName"));
         student.setLName(result_set.getString("StudentLName"));
+        student.setFName(result_set.getString("StudentFName"));
+        student.setMName(result_set.getString("StudentMName"));
         student.setBirthDate(result_set.getDate("StudentBorn"));
         return student;
     }
@@ -66,10 +66,11 @@ public class StudentDao implements Dao<Student> {
     @Override
     public boolean insert(Student student) {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement prepared_statement = connection.prepareStatement("INSERT INTO student VALUES (NULL, ?, ?, ?, ?, ?)");) {
-            prepared_statement.setString(1, student.getName());
-            prepared_statement.setString(2, student.getMName());
+             PreparedStatement prepared_statement = connection.prepareStatement("INSERT INTO student " +
+                     "VALUES (NULL, ?, ?, ?, ?, ?)")) {
+            prepared_statement.setString(1, student.getLName());
             prepared_statement.setString(3, student.getFName());
+            prepared_statement.setString(2, student.getMName());
 
             int i = prepared_statement.executeUpdate();
             if (i == 1)
@@ -85,9 +86,9 @@ public class StudentDao implements Dao<Student> {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement prepared_statement = connection.prepareStatement("UPDATE student SET StudentMName=?, " +
                      "StudentFName=?, StudentLName=?, StudentBorn=?")) {
-            prepared_statement.setString(1, student.getName());
-            prepared_statement.setString(2, student.getMName());
+            prepared_statement.setString(1, student.getLName());
             prepared_statement.setString(3, student.getFName());
+            prepared_statement.setString(2, student.getMName());
 
             int i = prepared_statement.executeUpdate();
             if (i == 1)
