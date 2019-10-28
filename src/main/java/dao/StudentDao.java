@@ -27,6 +27,7 @@ public class StudentDao implements Dao<Student> {
         } catch (SQLException | NullPointerException e) {
             raiseException("Can't get student with id: " + id + ".", e);
         }
+        System.out.println("Student with id = " + id + " was not found.");
         return new Student();
     }
 
