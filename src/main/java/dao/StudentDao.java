@@ -13,7 +13,7 @@ public class StudentDao implements Dao<Student> {
 
     private static final String USER = "root";
     private static final String PASSWORD = "1122";
-    private static final String DB_URL = "jdbc:mysql://localhost/school?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String DB_URL = "jdbc:mysql://localhost/schoo?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
 
     @Override
     public Student get(int id) {
@@ -25,9 +25,9 @@ public class StudentDao implements Dao<Student> {
                 return getFromResultSet(result_set);
             }
         } catch (SQLException | NullPointerException e) {
-            e.printStackTrace();
+            raiseException("Can't get student with id: " + id + ".", e);
         }
-        return null;
+        return new Student();
     }
 
     @Override
@@ -53,12 +53,11 @@ public class StudentDao implements Dao<Student> {
                 Student student = getFromResultSet(result_set);
                 students.add(student);
             }
-
             return students;
         } catch (SQLException | NullPointerException e) {
-            e.printStackTrace();
+            raiseException("Can't get list of all students.", e);
         }
-        return null;
+        return students;
     }
 
     @Override
@@ -77,7 +76,7 @@ public class StudentDao implements Dao<Student> {
             if (i == 1)
                 return true;
         } catch (SQLException | NullPointerException e) {
-            e.printStackTrace();
+            raiseException("Can't insert " + student.toString() + ".", e);
         }
         return false;
     }
@@ -95,7 +94,7 @@ public class StudentDao implements Dao<Student> {
             if (i == 1)
                 return true;
         } catch (SQLException | NullPointerException e) {
-            e.printStackTrace();
+            raiseException("Can't update " + student.toString() + ".", e);
         }
         return false;
     }
@@ -108,8 +107,14 @@ public class StudentDao implements Dao<Student> {
                 if (i == 1)
                     return true;
         } catch (SQLException | NullPointerException e) {
-            e.printStackTrace();
+            raiseException("Can't delete student with id: " + id + ".", e);
         }
         return false;
+    }
+
+    private void raiseException(String msg, Exception e) {
+        System.out.println(msg);
+        if (verbose)
+            e.printStackTrace();
     }
 }
