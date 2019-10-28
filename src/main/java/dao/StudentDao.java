@@ -1,5 +1,6 @@
 package dao;
 
+import connection.ConnectionFactory;
 import db.school.Student;
 
 import java.sql.*;
