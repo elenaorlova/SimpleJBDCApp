@@ -24,7 +24,9 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return "Student:\n{ Last name: " + this.lName + "\nFirst name: " + this.fName + "\nMiddle name: " + this.mName
+        return "Student:\n{ Last name: " + this.lName
+                + "\nFirst name: " + this.fName
+                + "\nMiddle name: " + this.mName
                 + "\nID: " + this.id + " }";
     }
 }

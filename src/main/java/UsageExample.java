@@ -4,7 +4,7 @@ import db.school.Student;
 
 import java.util.List;
 
-public class TestAdd {
+public class UsageExample {
 
     public static void main(String[] args) {
         Dao studentDao = new StudentDao();

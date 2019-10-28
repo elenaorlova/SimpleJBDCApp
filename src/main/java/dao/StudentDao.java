@@ -13,7 +13,8 @@ public class StudentDao implements Dao<Student> {
 
     private static final String USER = "root";
     private static final String PASSWORD = "1122";
-    private static final String DB_URL = "jdbc:mysql://localhost/schoo?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String DB_URL = "jdbc:mysql://localhost/school" +
+            "?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
 
     @Override
     public Student get(int id) {

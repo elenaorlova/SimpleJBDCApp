@@ -2,8 +2,6 @@ package db.school;
 
 import java.sql.Date;
 
-// todo: private protected or default ???
-
 abstract class Person {
     int id;
     String lName;
